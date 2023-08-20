@@ -11,13 +11,24 @@ out = 0
 
 # config
 global method
-method = 2
+method = 3
 
 """
-Default Settings:
+Method Settings:
 method = 2
 Fastest current method
 Third method soon to fix irrational graphing problem and approx
+
+Method 1:
+Go through each pixel and sees if pair fits (bro what)
+
+Method 2:
+Goes to each x value and gets the val 
+
+Method 3: [EXPERIMENTAL KINDA WORKS]
+Method 1 but also decimals are accounted for via a special version of rounding. Unit parameter is required
+unit=5 seems to be a sweet spot for pConstant = 0.1
+Current settings are good for method 3
 """
 
 """
@@ -36,7 +47,8 @@ class GraphingCalculator(object):
         self.equation = ""
         self.dim = dimensions
         self.stopFlag = False
-        self.unit = 1
+        self.unit = unit
+        self.pConstant = 0.01 # i'll make this more customizable later
 
         # math def
         self.system = system
@@ -89,7 +101,7 @@ class GraphingCalculator(object):
         self.equation = self.equationBox.get("1.0", "end-1c")
 
         # --- Method 1 --- #
-        if method not in [1, 2]:
+        if method not in [1, 2, 3]:
             method = 1
         if method == 1:
             for i in range(self.dim):
@@ -102,6 +114,18 @@ class GraphingCalculator(object):
                 x1, y1 = self.getCord(i, i)
                 x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation())) # redundant but idc
                 idk = self.canvas.create_rectangle(i, y1, i, y1, fill="red")
+        if method == 3:
+            for i in range(self.dim):
+                for j in range(self.dim):
+                    x1, y1 = self.getCord(i, j)
+                    x1 /= self.unit
+                    y1 /= self.unit
+                    # print(x1, y1)
+                    if self.useEq(x1, self.getEquation()) == y1:
+                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
+                    elif abs(self.useEq(x1, self.getEquation()) - y1) <= self.pConstant:
+                        # print("yes")
+                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
 
 
     def getEquation(self):
@@ -144,7 +168,7 @@ class GraphingCalculator(object):
         retStatement = "global out;" + bgStatement + "out += " + "".join(retEq)
         return retStatement
 
-    def useEq(self, x, eq):
+    def useEq(self, x, eq): # worst code ever bruh
         global out
         out = 0
         exec(eq)
@@ -154,4 +178,4 @@ class GraphingCalculator(object):
         return (x - self.dim // 2)/self.unit, (-y + self.dim // 2)/self.unit
 
 if __name__ == "__main__":
-    e = GraphingCalculator(unit=1, system=float)
+    e = GraphingCalculator(unit=10, system=float, dimensions=300)
