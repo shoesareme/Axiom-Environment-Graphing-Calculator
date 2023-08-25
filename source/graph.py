@@ -61,7 +61,7 @@ class GraphingCalculator(object):
         self.stopFlag = False
         self.unit = unit
         self.environment = environment
-        self.pConstant = 0.01 # i'll make this more customizable later
+        self.pConstant = 0.01  # i'll make this more customizable later
 
         # math def
         self.system = system
@@ -115,26 +115,35 @@ class GraphingCalculator(object):
 
         self.equation = self.equationBox.get("1.0", "end-1c")
 
-        # --- Method 1 --- #
+        # --- Methods --- #
         if method not in [1, 2, 3]:
             method = 1
+
+        # --- Method 1 --- #
         if method == 1:
             for i in range(self.dim):
                 for j in range(self.dim):
                     x1, y1 = self.getCord(i, j)
                     if self.useEq(x1, self.getEquation()) == y1:
                         idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
+
+        # --- Method 2 --- #
         if method == 2: # works now
             for i in range(1, self.dim+1):
                 x1, y1 = self.getCord(i, i)
                 x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation())) # redundant but idc
                 idk = self.canvas.create_rectangle(i, y1, i, y1, fill="red")
+
+        # --- Method 3 --- #
         if method == 3:
             for i in range(self.dim):
                 for j in range(self.dim):
                     x1, y1 = self.getCord(i, j)
-                    x1 /= self.unit
-                    y1 /= self.unit
+
+                    # Old code that caused a "bug". Technically method 3.5 lol
+                    # x1 /= self.unit
+                    # y1 /= self.unit
+
                     # print(x1, y1)
                     if self.useEq(x1, self.getEquation()) == y1:
                         idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
@@ -210,4 +219,4 @@ class GraphingCalculator(object):
         reset(self.dim, self.system, self.n, self.unit, self.environment)
 
 if __name__ == "__main__":
-    e = GraphingCalculator(unit=10, system=float, dimensions=300)
+    e = GraphingCalculator(unit=100, system=float, dimensions=1000)
