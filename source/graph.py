@@ -1,6 +1,8 @@
 import tkinter
+import customMath
 
 # setup root
+global root
 root = tkinter.Tk()
 
 root.title("Graphing Calculator")
@@ -12,6 +14,13 @@ out = 0
 # config
 global method
 method = 3
+
+"""
+General Notes:
+future companies and others be looking at my code and see this mess I would get arrested LOL
+hope certain group doesn't see this when considering this
+anyways PEP8 standard lovers gonna burn me at the stake bye yall
+"""
 
 """
 Method Settings:
@@ -39,15 +48,19 @@ but example:
 2 * x + 1
 """
 
+def reset(dimensions, system, n, unit, environment):
+    p = GraphingCalculator(dimensions, system, n, unit, environment)
+
 # Normal Math Graphing Calculator #
 
 class GraphingCalculator(object):
-    def __init__(self, dimensions=300, system=int, n="int", unit=1):
+    def __init__(self, dimensions=300, system=int, n="int", unit=1, environment=customMath.BaseIntegerEnvironment):
         # primitive definitions
         self.equation = ""
         self.dim = dimensions
         self.stopFlag = False
         self.unit = unit
+        self.environment = environment
         self.pConstant = 0.01 # i'll make this more customizable later
 
         # math def
@@ -83,6 +96,7 @@ class GraphingCalculator(object):
         self.canvas = tkinter.Canvas(root, bg="white", height=dimensions, width=dimensions)
         self.equationBox = tkinter.Text(root, height=1, width=dimensions//7)
         self.equationGo = tkinter.Button(root, text="Graph", command=self.graph)
+        self.resetButton = tkinter.Button(root, text="Reset Graph", command=self.resetGraph)
 
         # Coord Plane
         xAxis = self.canvas.create_rectangle(1, dimensions//2, dimensions, dimensions//2, fill="black")
@@ -91,6 +105,7 @@ class GraphingCalculator(object):
         # packing
         self.equationBox.pack()
         self.equationGo.pack()
+        self.resetButton.pack()
         self.canvas.pack()
         root.mainloop()
 
@@ -171,11 +186,28 @@ class GraphingCalculator(object):
     def useEq(self, x, eq): # worst code ever bruh
         global out
         out = 0
-        exec(eq)
+
+        try:
+            exec(eq)
+        except ZeroDivisionError:
+            out = 0
+        except TypeError:
+            pass
+
         return out
 
     def getCord(self, x, y):
         return (x - self.dim // 2)/self.unit, (-y + self.dim // 2)/self.unit
+
+    def resetGraph(self): # worst coding practice ever LOL
+        global root
+
+        root.destroy()
+
+        root = tkinter.Tk()
+        root.title("Graphing Calculator")
+
+        reset(self.dim, self.system, self.n, self.unit, self.environment)
 
 if __name__ == "__main__":
     e = GraphingCalculator(unit=10, system=float, dimensions=300)
