@@ -14,6 +14,7 @@ out = 0
 # config
 global method
 method = 3
+algorithm = "WTF"
 
 """
 General Notes:
@@ -167,30 +168,38 @@ class GraphingCalculator(object):
         # -- Interpret -- #
 
         "Via the WTF algorithm"
+        "Notice: WTF algorithm will be deprecated"
 
-        self.tokenEq = self.equation.split(" ")
-        pEquation = self.equation.split(" ")
-        varLength = 1
-        retEq = []
-        aLoc = dict()
-        for i in range(len(self.tokenEq)):
-            if self.tokenEq[i].isdigit():
-                self.tokenEq[i] = self.system(pEquation[i])
-                retEq.append("a" * varLength)
-                aLoc[varLength] = i
-                varLength += 1
-                continue
-            retEq.append(self.tokenEq[i])
+        if algorithm not in ["WTF", "Env"]:
+            return "0"
 
-        # -- Assemble -- #
-        bgStatement = ""
-        for i in range(1, varLength):
-            if varLength == 1:
-                break
-            bgStatement += "a" * i + "=" + self.n + "(" + pEquation[aLoc[i]] + ");"
+        if algorithm == "WTF":
+            self.tokenEq = self.equation.split(" ")
+            pEquation = self.equation.split(" ")
+            varLength = 1
+            retEq = []
+            aLoc = dict()
+            for i in range(len(self.tokenEq)):
+                if self.tokenEq[i].isdigit():
+                    self.tokenEq[i] = self.system(pEquation[i])
+                    retEq.append("a" * varLength)
+                    aLoc[varLength] = i
+                    varLength += 1
+                    continue
+                retEq.append(self.tokenEq[i])
 
-        retStatement = "global out;" + bgStatement + "out += " + "".join(retEq)
-        return retStatement
+            # -- Assemble -- #
+            bgStatement = ""
+            for i in range(1, varLength):
+                if varLength == 1:
+                    break
+                bgStatement += "a" * i + "=" + self.n + "(" + pEquation[aLoc[i]] + ");"
+
+            retStatement = "global out;" + bgStatement + "out += " + "".join(retEq)
+            return retStatement
+
+        if algorithm == "Env":
+            pass
 
     def useEq(self, x, eq): # worst code ever bruh
         global out
