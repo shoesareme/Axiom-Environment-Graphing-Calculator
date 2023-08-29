@@ -15,6 +15,7 @@ out = 0
 global method
 method = 3
 algorithm = "WTF"
+lineColor = "red"
 
 """
 General Notes:
@@ -126,14 +127,14 @@ class GraphingCalculator(object):
                 for j in range(self.dim):
                     x1, y1 = self.getCord(i, j)
                     if self.useEq(x1, self.getEquation()) == y1:
-                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
+                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red", outline=lineColor)
 
         # --- Method 2 --- #
         if method == 2: # works now
             for i in range(1, self.dim+1):
                 x1, y1 = self.getCord(i, i)
                 x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation())) # redundant but idc
-                idk = self.canvas.create_rectangle(i, y1, i, y1, fill="red")
+                idk = self.canvas.create_rectangle(i, y1, i, y1, fill="red", outline=lineColor)
 
         # --- Method 3 --- #
         if method == 3:
@@ -147,10 +148,10 @@ class GraphingCalculator(object):
 
                     # print(x1, y1)
                     if self.useEq(x1, self.getEquation()) == y1:
-                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
+                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red", outline=lineColor)
                     elif abs(self.useEq(x1, self.getEquation()) - y1) <= self.pConstant:
                         # print("yes")
-                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red")
+                        idk = self.canvas.create_rectangle(i, j, i, j, fill="red", outline=lineColor)
 
 
     def getEquation(self):
@@ -228,4 +229,4 @@ class GraphingCalculator(object):
         reset(self.dim, self.system, self.n, self.unit, self.environment)
 
 if __name__ == "__main__":
-    e = GraphingCalculator(unit=100, system=float, dimensions=1000)
+    e = GraphingCalculator(unit=100, system=float, dimensions=300)
