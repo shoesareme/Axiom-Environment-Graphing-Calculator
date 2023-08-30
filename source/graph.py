@@ -16,6 +16,7 @@ global method
 method = 3
 algorithm = "WTF"
 lineColor = "red"
+safety = True
 
 """
 General Notes:
@@ -94,6 +95,10 @@ class GraphingCalculator(object):
             ")" # Deal with these two later
         ]
 
+        if safety:
+            self.system = self.environment.systemConstant
+            self.n = self.environment.systemConstantName
+
         # complex def
         self.canvas = tkinter.Canvas(root, bg="white", height=dimensions, width=dimensions)
         self.equationBox = tkinter.Text(root, height=1, width=dimensions//7)
@@ -171,7 +176,7 @@ class GraphingCalculator(object):
         "Via the WTF algorithm"
         "Notice: WTF algorithm will be deprecated"
 
-        if algorithm not in ["WTF", "Env"]:
+        if algorithm not in ["WTF", "EnvWTF"]:
             return "0"
 
         if algorithm == "WTF":
@@ -199,7 +204,7 @@ class GraphingCalculator(object):
             retStatement = "global out;" + bgStatement + "out += " + "".join(retEq)
             return retStatement
 
-        if algorithm == "Env":
+        if algorithm == "EnvWTF":  # slightly better WTF
             pass
 
     def useEq(self, x, eq): # worst code ever bruh
