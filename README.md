@@ -1,5 +1,5 @@
 # Axiom-Environment-Graphing-Calculator
-The Axiom Environment Graphing Calculator is a graphing calculator meant to explore mathematical systems with different axioms.
+The Axiom Environment Graphing Calculator is a graphing calculator meant to explore mathematical systems with different axioms. It will eventually include graphing for numbers, complex numbers, and more.
 
 
 ## Currently working on: 
