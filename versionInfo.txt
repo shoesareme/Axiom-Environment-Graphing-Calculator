@@ -1,4 +1,17 @@
-Current Version: Pre-alpha ~0.04 (idk how many commits exactly this aint accurate)
+Current Version: Pre-alpha ~0.09 (idk how many commits exactly this aint accurate)
 
 Progress to next update: ???
 Progress to final product: 1% (rip)
+
+Update Log:
+
+Graphing Calculator:
+Reset graph added
+Custom colors added
+Safety added
+Minor bugs fixed
+
+Techincal:
+main.py remains empty for now
+customMath.py being prepared for integration
+graph.py being prepared for integration
