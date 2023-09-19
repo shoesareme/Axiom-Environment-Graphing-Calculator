@@ -139,7 +139,7 @@ class GraphingCalculator(object):
             for i in range(1, self.dim+1):
                 x1, y1 = self.getCord(i, i)
                 x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation())) # redundant but idc
-                idk = self.canvas.create_rectangle(i, y1, i, y1, fill="red", outline=lineColor)
+                idk = self.canvas.create_rectangle(i, y1*self.unit, i, y1*self.unit, fill="red", outline=lineColor)
 
         # --- Method 3 --- #
         if method == 3:
@@ -165,7 +165,7 @@ class GraphingCalculator(object):
                 x1, y1 = self.getCord(i, i)
                 x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation()))  # redundant but idc
                 print(i*self.pConstant)
-                idk = self.canvas.create_rectangle(round(i), round(y1), round(i), round(y1), fill="red", outline=lineColor)
+                idk = self.canvas.create_rectangle(i, y1*self.unit, i, y1*self.unit, fill="red", outline=lineColor)
 
     def getEquation(self):
         self.stopFlag = False
