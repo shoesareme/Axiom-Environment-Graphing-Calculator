@@ -13,10 +13,10 @@ out = 0
 
 # config
 global method
-method = 3
+method = 2
 algorithm = "WTF"
 lineColor = "red"
-safety = True
+safety = False
 
 """
 General Notes:
@@ -57,14 +57,14 @@ def reset(dimensions, system, n, unit, environment):
 # Normal Math Graphing Calculator #
 
 class GraphingCalculator(object):
-    def __init__(self, dimensions=300, system=int, n="int", unit=1, environment=customMath.BaseIntegerEnvironment):
+    def __init__(self, dimensions=300, system=int, n="int", unit=1, environment=customMath.BaseIntegerEnvironment()):
         # primitive definitions
         self.equation = ""
         self.dim = dimensions
         self.stopFlag = False
         self.unit = unit
         self.environment = environment
-        self.pConstant = 0.01  # i'll make this more customizable later
+        self.pConstant = 0.1  # i'll make this more customizable later
 
         # math def
         self.system = system
@@ -123,7 +123,7 @@ class GraphingCalculator(object):
         self.equation = self.equationBox.get("1.0", "end-1c")
 
         # --- Methods --- #
-        if method not in [1, 2, 3]:
+        if method not in [1, 2, 3, 4]:
             method = 1
 
         # --- Method 1 --- #
@@ -158,6 +158,14 @@ class GraphingCalculator(object):
                         # print("yes")
                         idk = self.canvas.create_rectangle(i, j, i, j, fill="red", outline=lineColor)
 
+
+        # --- Method 4 --- #
+        if method == 4: # THIS DOESNT WORK YET AND IDK WHY
+            for i in range(1, int((self.dim+1))):
+                x1, y1 = self.getCord(i, i)
+                x1, y1 = self.getCord(i, self.useEq(x1, self.getEquation()))  # redundant but idc
+                print(i*self.pConstant)
+                idk = self.canvas.create_rectangle(round(i), round(y1), round(i), round(y1), fill="red", outline=lineColor)
 
     def getEquation(self):
         self.stopFlag = False
@@ -234,4 +242,4 @@ class GraphingCalculator(object):
         reset(self.dim, self.system, self.n, self.unit, self.environment)
 
 if __name__ == "__main__":
-    e = GraphingCalculator(unit=100, system=float, dimensions=300)
+    e = GraphingCalculator(unit=10, system=float, dimensions=300)
